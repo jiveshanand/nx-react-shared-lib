@@ -1,0 +1,81 @@
+{
+  "name": "mfe-2",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/mfe-2/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/mfe-2",
+        "index": "apps/mfe-2/src/index.html",
+        "baseHref": "/",
+        "main": "apps/mfe-2/src/main.tsx",
+        "tsConfig": "apps/mfe-2/tsconfig.app.json",
+        "assets": ["apps/mfe-2/src/favicon.ico", "apps/mfe-2/src/assets"],
+        "styles": ["apps/mfe-2/src/styles.scss"],
+        "scripts": [],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/mfe-2/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/mfe-2/src/environments/environment.ts",
+              "with": "apps/mfe-2/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "mfe-2:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "port": 3001,
+          "buildTarget": "mfe-2:build:development"
+        },
+        "production": {
+          "buildTarget": "mfe-2:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/mfe-2/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mfe-2/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
